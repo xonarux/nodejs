@@ -5,7 +5,7 @@ const fs = require("fs");
 
 //Agregamos configuraciones iniciales
 const PORT = 3000;
-
+const HOST = "http://localhost"
 //LEER DE FORMA SÍNCRONA
 //var html = fs.readFileSync("./index.html")
 // http.createServer((req, res)=>{
@@ -16,15 +16,21 @@ const PORT = 3000;
 //LEER DE FORMA ASÍNCRONA
 
 http.createServer((req, res)=>{
-        fs.readFile("./servers_node/index.html", (err, html)=>{
-        //res.writeHead(200,{"Content-Type":"text/html"})
-        //res.write(JSON.stringify({"Nombre":"Carlos", "Apellido":"Herrera"}))
-        res.write(html);  //Esto envía al navegador el archivo
-        //res.write("<h1>Segundo html</h1>") //Write escribe debajo de lo que ya está escrito en el navegador
-        res.end();        //Esto termina el envío al navegador (evita que quede cargando)
-    })
+        fs.readFile("./servers_node/style.css",(err, css)=>{
+            fs.readFile("./servers_node/index.html", (err, html)=>{
+                res.writeHead(200,{"Content-Type":"text/css"})
+                res.write(css)
+                //res.write(JSON.stringify({"Nombre":"Carlos", "Apellido":"Herrera"}))
+                res.writeHead(200,{"Content-Type":"text/html"})
+
+                res.write(html);  //Esto envía al navegador el archivo
+            
+                //res.write("<h1>Segundo html</h1>") //Write escribe debajo de lo que ya está escrito en el navegador
+                res.end();        //Esto termina el envío al navegador (evita que quede cargando)
+            })
+        })
     }).listen(PORT,()=>{
-        console.log(`Servidor corriendo en el puerto ${PORT}`);
+        console.log(`Servidor corriendo en ${HOST}:${PORT}`);
 })
 /*
 create server crea el servidor

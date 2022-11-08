@@ -1,0 +1,23 @@
+.fondo{
+    background-color: black;
+    /* background-image: radial-gradient(120deg, #84fab0 0%, #8fd3f4 100%); */
+}
+.letra{
+    font-family: impact;
+    font-size: 30vh;
+    text-transform: uppercase;
+    background-image: url("https://fondosmil.com/fondo/34260.jpg");
+    background-size: contain;
+    -webkit-background-clip: text;
+    background-position: center;
+    color: transparent;
+    text-align: center;
+    margin-top: 15%;
+    letter-spacing: 20px;
+    transition: 5000ms;
+}
+.letra:hover{
+    background-position: left;
+    background-size: contain;
+    transition: 5000ms;
+}
