@@ -1,7 +1,7 @@
 //http sirve para crear el servidor HTTP= HyperText Tranfer Protocol
-const http = require("http");
+const http = require("http")
 //fs sirve para manejar archivos FS = File System
-const fs = require("fs");
+const fs = require("fs")
 
 //Agregamos configuraciones iniciales
 const PORT = 3000;
@@ -16,19 +16,27 @@ const HOST = "http://localhost"
 //LEER DE FORMA ASÍNCRONA
 
 http.createServer((req, res)=>{
-        fs.readFile("./servers_node/style.css",(err, css)=>{
-            fs.readFile("./servers_node/index.html", (err, html)=>{
-                res.writeHead(200,{"Content-Type":"text/css"})
-                res.write(css)
-                //res.write(JSON.stringify({"Nombre":"Carlos", "Apellido":"Herrera"}))
-                res.writeHead(200,{"Content-Type":"text/html"})
+        
+    fs.readFile("./servers_node/index.html", (err, html)=>{
+        var html_string = html.toString()
+        var variables = html_string.match(/[^\{\}]+(?=\})/g)
+        var donde = "En Node.js"
 
-                res.write(html);  //Esto envía al navegador el archivo
-            
-                //res.write("<h1>Segundo html</h1>") //Write escribe debajo de lo que ya está escrito en el navegador
-                res.end();        //Esto termina el envío al navegador (evita que quede cargando)
-            })
-        })
+        for (let i = 0; i < variables.length; i++) {
+            var value = eval(variables[i])
+            html_string = html_string.replace("{"+variables[i]+"}",value)
+        }
+
+        res.writeHeader(200,{"Content-Type":"text/html"})    
+        //res.write(JSON.stringify({"Nombre":"Carlos", "Apellido":"Herrera"}))
+        // res.writeHead(200,{"Content-Type":"text/html"})
+        //res.write(css)
+        res.write(html_string);  //Esto envía al navegador el archivo
+    
+        //res.write("<h1>Segundo html</h1>") //Write escribe debajo de lo que ya está escrito en el navegador
+        res.end();        //Esto termina el envío al navegador (evita que quede cargando)
+    })
+        
     }).listen(PORT,()=>{
         console.log(`Servidor corriendo en ${HOST}:${PORT}`);
 })
